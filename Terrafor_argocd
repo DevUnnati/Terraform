@@ -1,0 +1,7 @@
+ module "argocd_example_default" {
+  source  = "aigisuk/argocd/kubernetes//examples/default"
+  version = "0.2.7"
+  admin_password = "unnati"
+}
+
+~            
