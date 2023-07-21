@@ -1,1 +1,11 @@
+##################################################### Terraform basics #################################################################
+What is Terraform?
+Terraform is a infrastructure as a code tool.It is used to create infrastructure. You can create multiple infrastructure and manage infrastructure at a time by using Terraform.
 
+Advantages of Using Terraform:-
+
+a) Terraform can manage infrastructure on multiple cloud platforms.
+b) The human readable configuration language helps you write infrastructure code quickly.
+c) Terraform state allow you to track resource changes throughout your deployment.
+
+Note:- You can manage any cloud Provider (AWS, Azure, GCP) by using Terraform at same time.
