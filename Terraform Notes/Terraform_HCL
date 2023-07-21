@@ -1,0 +1,83 @@
+What is HCL ?
+HCL stands for Hashicrop configuration Language.It used to write configuration in Terraform.
+
+Terraform configuration is written in the HashiCorp Configuration Language (HCL), which is a declarative language specifically designed for Terraform. 
+The syntax of HCL is human-readable, making it easy for users to understand the configuration of infrastructure resources
+
+Terraform_Configuration Files:-
+Terraform configuration files are written in the Terraform language and are used to define and manage the infrastructure you want to create, update, or 
+manage. In Terraform extensions is ".tf" .
+
+ex:- local. tf   ---> file
+content:--
+<block> <parameter>
+{
+  key1 = value1
+  key2 = value2
+}
+
+Note:- The Terraform syntax build around two key syntax constructs.
+       a) arguments
+      b) blocks
+
+Terraform Blocks:-
+Terraform Configuration Blocks are the building blocks of Terraform configurations. They define the infrastructure components and how they should be 
+connected and configured. The Terraform language provides several types of blocks, such as provider, resource, module, and data, to describe the
+components you want to create and manage.
+
+Terraform Variables:-
+Terraform variables provide a way to store values that can be reused throughout a Terraform configuration. There are two types of Terraform variables: input variables and output variables.
+
+Terraform Input Varaibles:-
+Input variables are used as parameters when you apply your Terraform configuration. They allow you to pass values into your Terraform code that can be used to dynamically control the creation of your infrastructure.
+
+ex-
+variable "location" {
+  type        = string
+  description = "The Azure region where the resource group will be created."
+}
+
+provider "azurerm" {
+  version = "2.0"
+}
+
+resource "azurerm_resource_group" "b59_group" {
+  name     = "b59-group"
+  location = var.location
+}
+
+Terraform Output Variables:-
+Output variables are used to return values from your Terraform code back to the command line interface. They can be used to pass data between Terraform modules or to return information about your infrastructure for use in other tools and scripts.
+
+example:-
+provider "azurerm" {
+  version = "2.0"
+}
+
+resource "azurerm_resource_group" "b59_group" {
+  name     = "b59-group"
+  location = "eastus"
+}
+
+output "resource_group_name" {
+  value = azurerm_resource_group.b59_group.name
+}
+
+Terraform Data Types:--
+In Terraform, data types are used to specify the format of the values assigned to variables. 
+
+Used to represent text-based values. For example: "Hello World"
+number
+Used to represent numerical values, either integer or floating-point. For example: 42 or 3.14
+boolean
+Used to represent true/false values. For example: true or false
+list
+Used to represent a list of values of any data type. For example: [1, 2, 3, 4]
+map
+Used to represent a collection of key-value pairs, where the keys and values can be of any data type. For example: {key1 = "value1", key2 = "value2"}
+object
+Used to represent a complex data structure, typically containing multiple keys and values of different data types.
+
+When defining variables in Terraform, you can specify the data type either explicitly or let Terraform infer the type based on the value assigned to the variable. For example, the following code defines a variable message of type string and assigns it a value of Hello World:
+
+
