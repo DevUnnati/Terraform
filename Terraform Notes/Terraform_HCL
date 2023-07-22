@@ -80,4 +80,62 @@ Used to represent a complex data structure, typically containing multiple keys a
 
 When defining variables in Terraform, you can specify the data type either explicitly or let Terraform infer the type based on the value assigned to the variable. For example, the following code defines a variable message of type string and assigns it a value of Hello World:
 
+Terraform Provider Syntax:-
+Terraform Provider are external services that provide Terraform with the necessary functionality to manage and intreact with specific resources.
+
+example:-
+provider "azurerm"{
+  version = "2.27.0"
+  features {}
+}
+
+Once the provider is defined, you can use it to manage resources in Microsoft Azure, such as creating a virtual network, creating a virtual machine, or creating a storage account. 
+
+Terraform Provisioner:- 
+Terraform Provisioners are scripts that are executed after a resource is created and before it is destroyed.
+They allow you configure additional actions to be taken on your infrastructure after Terraform has created it.
+
+
+Note:- 
+It’s important to note that provisioners are optional, but they provide a powerful way to configure additional actions on your infrastructure after Terraform has created it.
+
+Supported Provisioners:-
+a) local-exec Provisioner:-
+local-exec provisioner is a type of Terraform provisioner that runs a local executable after Terraform has completed its work. This provisioner can be useful in situations where some additional post-processing of the Terraform-created resources is required. For example, you might use a local-exec provisioner to install software on a virtual machine after Terraform has finished creating the virtual machine and its associated resources.
+syntax:-
+provisioner "local-exec" {
+  command = "command to run"
+
+  environment = {
+    VAR1 = "value1"
+    VAR2 = "value2"
+  }
+}
+
+example1:-
+resource "azurerm_virtual_machine" "b59_vm" {
+  # ... (other configuration omitted)
+
+  provisioner "local-exec" {
+    command = "apt-get update && apt-get install -y apache2"
+  }
+}
+
+example2:-
+resource "azurerm_virtual_machine" "b59_vm" {
+  # resource configuration here
+
+  provisioner "local-exec" {
+    when = "destroy"
+    command = "echo 'Virtual machine has been destroyed!'"
+  }
+}
+In this example, when the Terraform-managed Azure virtual machine is destroyed, the local-exec provisioner will execute the echo command and log the message to the console.
+
+remote-exec Provisioner:-
+The remote-exec provisioner in Terraform allows executing a command on a remote resource after it has been created. It is commonly used to perform post-provisioning steps on instances created by Terraform.
+
+
+
+
 
