@@ -1,0 +1,70 @@
+terraform {
+  required_providers {
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.0.0, <= 3.0.0" # Update this to the appropriate version range
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 1.0.0, <= 1.17.3" # Update this to the appropriate version range
+    }
+  }
+}
+
+provider "kubernetes" {
+  host = "https://kubernetes.default.svc"
+  token = var.token
+  cluster_ca_certificate = file(var.cluster_ca_certificate)
+}
+
+provider "helm" {
+  kubernetes {
+    host = "https://kubernetes.default.svc"
+    token = var.token
+    cluster_ca_certificate = file(var.cluster_ca_certificate)
+  }
+}
+
+variable "token" {
+  type    = string
+}
+
+variable "cluster_ca_certificate" {
+  type    = string
+}
+
+resource "helm_release" "argocd" {
+  name       = "argocd"
+  chart      = "argoproj/argocd"
+  version    = "v1.10.0"
+  repository = "https://github.com/chetan-rns/gitops-test"
+
+  values = [
+    <<-EOT
+    data:
+      secretToken: ${var.token}
+
+    users:
+      - name: admin
+        password: password
+    EOT
+  ]
+}
+
+resource "kubernetes_pod" "argocd_container" {
+  metadata {
+    name = "argocd-pod"
+    labels = {
+      app = "argocd"
+    }
+  }
+
+  spec {
+    container {
+      image = "argoproj/argocd:v1.10.0"
+      name  = "argocd-container"
+
+      # Add any other container configurations here
+    }
+  }
+}
